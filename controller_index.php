@@ -141,6 +141,11 @@ switch ($action){
 
         $sectiontwo = get_all_section_two();
         break;
+    
+    case'':
+        $sizes ;
+        $colors;
+    break;
 }
 
 
