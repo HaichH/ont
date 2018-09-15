@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- styles -->
+    <link href="css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+  	<div class="header">
+	     <div class="container">
+	        <div class="row">
+	           <div class="col-md-5">
+	              <!-- Logo -->
+	              <div class="logo">
+	                 <h1><a href="index.html">Admin panel</a></h1>
+	              </div>
+	           </div>
+	           <div class="col-md-5">
+	              <div class="row">
+	                <div class="col-lg-12">
+	                  <div class="input-group form">
+	                       <input type="text" class="form-control" placeholder="Search...">
+	                       <span class="input-group-btn">
+	                         <button class="btn btn-primary" type="button">Search</button>
+	                       </span>
+	                  </div>
+	                </div>
+	              </div>
+	           </div>
+	           <div class="col-md-2">
+	              <div class="navbar navbar-inverse" role="banner">
+	                  <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+	                    <ul class="nav navbar-nav">
+	                      <li class="dropdown">
+	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
+	                        <ul class="dropdown-menu animated fadeInUp">
+	                         
+	                          <li><a href="login.html">Logout</a></li>
+	                        </ul>
+	                      </li>
+	                    </ul>
+	                  </nav>
+	              </div>
+	           </div>
+	        </div>
+	     </div>
+	</div>
+
+    <div class="page-content">
+    	<div class="row">
+		  <div class="col-md-2">
+		  	<div class="sidebar content-box" style="display: block;">
+                <ul class="nav">
+                    <!-- Main menu -->
+                    <li class="current"><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                    <li><a href="calendar.html"><i class="glyphicon glyphicon-cog"></i> Company Info</a></li>
+                    <li><a href="stats.html"><i class="glyphicon glyphicon-cog"></i>Products</a></li>
+                    <li><a href="tables.html"><i class="glyphicon glyphicon-cog"></i> Homepage</a></li>
+                    <li><a href="buttons.html"><i class="glyphicon glyphicon-cog"></i>Product Details</a></li>
+                    <li class="submenu">
+                         <a href="#">
+                            <i class="glyphicon glyphicon-list"></i> Pages
+                            <span class="caret pull-right"></span>
+                         </a>
+                         <!-- Sub menu -->
+                         <ul>
+                            <li><a href="login.html">Homepage</a></li>
+                            <li><a href="signup.html">Products</a></li>
+                        </ul>
+                    </li>
+                </ul>
+             </div>
+		  </div>
+		  <div class="col-md-9">
+		  	<div class="row">
+		  		<div class="content-box-large">
+                                <div class="panel-heading">
+                                    <div class="panel-title"><h2>Add a new Product  </h2></div>
+
+                                        <div class="panel-options">
+                                                <a href="#" data-rel="reload"><i class="glyphicon glyphicon-hand-down"></i></a>
+                                        </div>
+                                </div>
+                                <div class="panel-body">
+                                    
+                                    <form>
+                                    
+                                        <div class="col-sm-7"><label>Product Name</label><br><input required class="form-control" type="text" name="prod_name"><br></div>
+                                        <div class="col-sm-7"><label>Product Price</label><br><input required class="form-control" type="number" name="prod_price"><br></div>
+                                        <div class="col-sm-7"><label>Product Description</label><br><input required class="form-control" type="text" name="prod_desc"><br></div>
+                                        <div class="col-sm-7"><label>Product Quantity</label><br><input required class="form-control" type="text" name="prod_qty"><br></div>
+                                        <div class="col-sm-7"><label>Product Category</label><br><select class="form-control"><option>Hi</option></select><br></div>
+                                        <div class="col-sm-7"><label>Product Weight</label><br><input required class="form-control" type="text" name="prod_weight"><br></div>
+                                        <div class="col-sm-7"><label>Product Dimensions</label><br><input required class="form-control" type="text" name="prod_dimension"><br></div>
+                                        <div class="col-sm-7"><label>Product Material</label><br><input required class="form-control" type="text" name="prod_material"><br></div>
+                                    <div class="col-sm-7"><label>Picture</label>
+                                        <input required type="file" name="prod_pic"> <br>
+                                    </div>
+                                        <div class="col-sm-7"><h4>Now, add the sizes and colours you have for the above product</h4></div>
+                                        <div class="col-sm-8"> <table class="table table-bordered" id="prod_deds"> 
+                                                <thead>
+                                                    <tr>
+                                                        <th>Size</th>
+                                                        <th>Colour</th>
+                                                        <th>Quantity</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                            </table><br></div>
+                                        <div class="col-sm-7"><input type="submit" value="Ok" class="btn btn-primary"><br><br></div>
+                                    </form><br>
+                                     
+                                </div>
+		  	</div>
+		  	</div>
+
+		  	
+		  </div>
+		</div>
+    </div>
+
+    <footer>
+         <div class="container">
+         
+            <div class="copy text-center">
+               Copyright 2018 <a href='#'>Healing & Anathi & Sinobom</a>
+            </div>
+            
+         </div>
+      </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>
