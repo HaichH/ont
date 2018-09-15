@@ -47,6 +47,7 @@ class DatabaseHandler
 		{
 			//Get a connection
 			$pdo_conn = self::GetConnection();
+                        $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			//Prepare query for execution
 			$statement = $pdo_conn->prepare($sql);
 			//Execute query
@@ -56,7 +57,8 @@ class DatabaseHandler
 		{
                 self::Close();
 				$error_message = $e->getMessage();
-                include('errors/database_error.php');
+                                die(print_r($e->getMessage()));
+              //  include('errors/database_error.php');
                 exit();
         }
 		

@@ -10,12 +10,12 @@ function get_all_section_one(){
 	return DatabaseHandler::GetAll($sql);
 }
 function update_section_one($sectionID,$imagePath,$firstText,$secondText,$active){
-	$sql = 'CALL uspGetProductByID (?,?,?,?,?) ';
+	$sql = 'CALL uspUpdateSectionOne (?,?,?,?,?) ';
 	$paras = array($sectionID,$imagePath,$firstText,$secondText,$active);
 	return DatabaseHandler::Execute($sql,$paras);
 }
 function add_section_one($imagePath,$firstText,$secondText,$active){
-	$sql = 'CALL uspAddSectionOne (?,?,?,?,?) ';
+	$sql = 'CALL uspAddSectionOne (?,?,?,?) ';
 	$paras = array($imagePath,$firstText,$secondText,$active);
 	return DatabaseHandler::Execute($sql,$paras);
 }
@@ -34,7 +34,7 @@ function update_section_two($sectionID,$firstText,$secondText,$imagePath,$active
 	return DatabaseHandler::Execute($sql,$paras);
 }
 function add_section_two($firstText,$secondText,$imagePath,$active){
-	$sql = 'CALL uspAddSectionTwo (?,?,?,?,?) ';
+	$sql = 'CALL uspAddSectionTwo (?,?,?,?) ';
 	$paras = array($firstText,$secondText,$imagePath,$active);
 	return DatabaseHandler::Execute($sql,$paras);
 }
@@ -43,12 +43,17 @@ function get_section_two_by_id($sectionID){
         $paras = array($sectionID);
 	return DatabaseHandler::GetRow($sql,$paras);
 }
+function delete_section_two($sectionID){
+	$sql = 'CALL uspDeleteSectionTwo (?)';
+	$paras = array($sectionID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
 function get_business(){
 	$sql = 'CALL uspGetBusiness  ';
 	return DatabaseHandler::GetRow($sql);
 }
 function update_business($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password){
-	$sql = 'CALL uspUpdateSectionTwo (?,?,?,?,?,?,?,?,?,?,?,?,?,?)  ';
+	$sql = 'CALL uspUpdateBusiness (?,?,?,?,?,?,?,?,?,?,?,?,?,?)  ';
 	$paras = array($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password);
 	return DatabaseHandler::Execute($sql,$paras);
 }
@@ -56,4 +61,13 @@ function add_business($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressL
 	$sql = 'CALL uspAddBusiness (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ';
 	$paras = array($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password);
 	return DatabaseHandler::Execute($sql,$paras);
+}	
+function delete_section_one($sectionID){
+	$sql = 'CALL uspDeleteSectionOne (?)';
+	$paras = array($sectionID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+function get_all_category() {
+    $sql = 'CALL uspGetAllCategory  ';
+    return DatabaseHandler::GetAll($sql);
 }

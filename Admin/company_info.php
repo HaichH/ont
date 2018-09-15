@@ -4,9 +4,9 @@
     <title>Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- styles -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="Admin/css/styles.css" rel="stylesheet">
   </head>
   <body>
   	<div class="header">
@@ -87,6 +87,7 @@
 							</div>
 						</div>
 		  				<div class="panel-body">
+                                                    <form action="" method="post"  enctype="multipart/form-data">
                                                     <label>Company Name:</label><br>
                                                     <input class="form-control" type="text" 
                                                            required name="company_name" value="<?php echo $business['Name'];?>" ><br>
@@ -130,12 +131,17 @@
                                                     
                                                     <label>Company Logo:</label><br>
                                                     <input  type="file" 
-                                                            required name="company_logo" value="<?php echo $business['LogoPath'];?>"><br>
+                                                          name="company_logo" ><br>
                                                     
                                                     <label>About us:</label><br>
-                                                    <textarea class="form-control" name="company_about" value="<?php echo $business['AboutUs'];?>"></textarea><br>
+                                                    <textarea class="form-control" name="company_about" ><?php echo $business['AboutUs'];?></textarea><br>
                                                     <input type="submit" class="btn btn-primary" value="Update company details">
-		  				</div>
+                                                    <input type='hidden' name='username' value='<?php echo $business['username'] ;?>'>
+                                                    <input type='hidden' name='password' value='<?php echo $business['password'];?>'>
+                                                    <input type='hidden' name='old_path' value='<?php echo $business['LogoPath'];?>'>
+                                                    <input type="hidden" name='action' value="update_business">
+                                                    </form>
+                                                </div>
 		  			</div>
 		  		</div>
 
@@ -159,7 +165,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Admin/js/custom.js"></script>
   </body>
 </html>
