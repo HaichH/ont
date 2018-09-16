@@ -1,6 +1,6 @@
 <?php
-include('/model/database_handler.php');
-include('/model/product_model.php');
+include('model/database_handler.php');
+include('model/product_model.php');
 
 require_once 'file_util.php';  // the get_file_list function
 require_once 'image_util.php'; // the process_image function
@@ -142,10 +142,151 @@ switch ($action){
         $sectiontwo = get_all_section_two();
         break;
     
-    case'':
-        $sizes ;
-        $colors;
+    case'login_page':
+        include 'Admin/login.html';
     break;
+
+    case 'login':
+        $Username = filter_input(INPUT_POST, 'user');
+        $Password = filter_input(INPUT_POST, 'pass');
+        $credentials = login_admin($Username, $Password);
+        if($credentials ==NULL){
+            $failure = true;
+            include 'Admin/login.html';
+        }else{
+            include 'Admin/index.html';
+        }
+        break;
+        
+    case'product_add':
+        $categories = get_all_category();
+        $sizes = get_sizes();
+        $colors = get_all_colours();
+        
+        //Need to stringfy size and colours to be dynamic
+        $size_string = "";
+        foreach($sizes as $size){
+            $size_string .= " <option value='".$size['sizeID']."'>".$size['sizeDesc']."</option> ";      
+        }
+        
+        $colors_string = "";
+        foreach($colors as $color){
+            $colors_string .= " <option value='".$color['colorID']."'>".$color['colorName']."</option> ";      
+        }
+        include 'Admin/product_adder.html';
+        break;
+    case 'add_product':
+        $prod_name = filter_input(INPUT_POST, 'prod_name');
+        $prod_price = filter_input(INPUT_POST, 'prod_price');
+        $prod_desc = filter_input(INPUT_POST, 'prod_desc');
+        $prod_qty = filter_input(INPUT_POST, 'prod_qty');
+        $prod_cat = filter_input(INPUT_POST, 'category');
+        $prod_weight = filter_input(INPUT_POST, 'prod_weight');
+        $prod_dim = filter_input(INPUT_POST, 'prod_dimension');
+        $prod_material = filter_input(INPUT_POST, 'prod_material');
+        $prod_sizes = $_POST['sizes'];
+        $prod_colours = $_POST['colours'];
+        $prod_qtys = $_POST['qtys'];
+        //Don't forget image
+        $img_name = date("H-i-s").$_FILES['prod_pic']['name'];
+        $directory = "images/".$img_name;
+        move_uploaded_file($_FILES['prod_pic']['tmp_name'],$directory); 
+       $is_added =  add_product($directory, $prod_price, $prod_qty, $prod_desc, $prod_name, $prod_weight, $prod_dim, $prod_material);
+       foreach ($prod_qtys as $key => $value) {
+           
+           add_qt_size_color($prod_colours[$key], $prod_sizes[$key], $value, $directory);
+       }
+       header("Location: controller_index.php?action=product_add");
+        break;
+        
+        case'product_edit':
+            $prods = get_products();
+             $categories = get_all_category();
+            include 'Admin/product_viewer.html';
+            break;
+        case 'find_product':
+            $ProductID = filter_input(INPUT_POST, 'prod_id');
+            $product = get_all_products($ProductID);
+             $categories = get_all_category();
+             $prods = get_products();
+             $SiQtCo = get_qty_col_size($ProductID);
+             include 'Admin/product_viewer.html';
+            break;
+    case 'edit_product':
+        $prod_id = filter_input(INPUT_POST, 'prod_id');
+        $prod_name = filter_input(INPUT_POST, 'prod_name');
+        $prod_price = filter_input(INPUT_POST, 'prod_price');
+        $prod_desc = filter_input(INPUT_POST, 'prod_desc');
+        $prod_qty = filter_input(INPUT_POST, 'prod_qty');
+        $prod_cat = filter_input(INPUT_POST, 'category');
+        $prod_weight = filter_input(INPUT_POST, 'prod_weight');
+        $prod_dim = filter_input(INPUT_POST, 'prod_dimension');
+        $prod_material = filter_input(INPUT_POST, 'prod_material');
+        if(isset( $_POST['sizes']) && isset($_POST['colours']) && isset($_POST['qtys'])){
+        $prod_sizes = $_POST['sizes'];
+        $prod_colours = $_POST['colours'];
+        $prod_qtys = $_POST['qtys'];
+        }
+        if(!file_exists($_FILES['prod_pic']['tmp_name']) || !is_uploaded_file($_FILES['prod_pic']['tmp_name'])) 
+        {
+            $directory = filter_input(INPUT_POST, 'prod_pic_path');
+        }   
+        else{
+        $img_name = date("H-i-s").$_FILES['prod_pic']['name'];
+        $directory = "images/".$img_name;
+        move_uploaded_file($_FILES['prod_pic']['tmp_name'],$directory);
+        $directory_old = filter_input(INPUT_POST, 'prod_pic_path');
+        unlink($directory_old);
+        }
+        $is_eddited = update_product($prod_id, $directory, $prod_price, $prod_qty, $prod_desc, $prod_name, $prod_weight, $prod_dim, $prod_material, $prod_cat);
+        if(isset($prod_qtys)){
+        foreach ($prod_qtys as $key => $value) {
+           
+           update_qty($prod_colours[$key], $prod_sizes[$key], $value, $prod_id);
+        }}
+            $product = get_all_products($prod_id);
+             $categories = get_all_category();
+             $prods = get_products();
+             $SiQtCo = get_qty_col_size($prod_id);
+             include 'Admin/product_viewer.html';
+        break;
+    
+    case'manage_products':
+        $categories = get_all_category();
+        $colors = get_all_colours();
+        $sizes = get_sizes();
+        include 'Admin/product_manager.html';
+        break;
+    case 'flag_category':
+        $ID = filter_input(INPUT_GET, 'ID');
+        $res = flag_category($ID);
+        header("Location: controller_index.php?action=manage_products");
+        break;
+    case 'flag_color':
+        $ID = filter_input(INPUT_GET, 'ID');
+        $res = flag_color($ID);
+         header("Location: controller_index.php?action=manage_products");
+        break;
+    case 'flag_size':
+        $ID = filter_input(INPUT_GET, 'ID');
+        $res = flag_size($ID);
+         header("Location: controller_index.php?action=manage_products");
+        break;
+    case'add_categ':
+         $name = filter_input(INPUT_POST, 'prod_category');
+        $res = add_category($name);
+         header("Location: controller_index.php?action=manage_products");
+        break;
+    case'add_size':
+        $desc = filter_input(INPUT_POST, 'prod_size');
+        $res  = add_size($desc);
+         header("Location: controller_index.php?action=manage_products");
+        break;
+    case'add_color':
+        $color = filter_input(INPUT_POST, 'prod_color');
+        $res = add_color($color);
+         header("Location: controller_index.php?action=manage_products");
+        break;
 }
 
 

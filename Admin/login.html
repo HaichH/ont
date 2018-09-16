@@ -4,9 +4,9 @@
     <title>Admin Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- styles -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="Admin/css/styles.css" rel="stylesheet">
   </head>
   <body class="login-bg">
   	<div class="header">
@@ -29,16 +29,22 @@
 			        <div class="box">
 			            <div class="content-wrap">
 			                <h6>Log in to proceed</h6>
-                                        <form>
-			                <input class="form-control" type="text" required placeholder="Admin Username">
-                                        <input class="form-control" type="password" placeholder="Password" required>
+                                        <form method="POST" action="?action=login">
+			                <input class="form-control" type="text" name="user" required placeholder="Admin Username">
+                                        <input class="form-control" type="password" name="pass" placeholder="Password" required>
 			                <div class="action">
                                             <input type="submit" class="btn btn-primary signup" value="Login">
 			                </div>  
                                         </form>
+                                        
 			            </div>
+                                    
 			        </div>
-
+                                    <div class="already">
+                                        <?php if(isset($failure)): ?>
+                                        <p>Failed to login. Credentials incorrect</p>
+                                        <?php endif;?>
+                                    </div>
 			        <div class="already">
 			            <p>Don't have an account? Then you aren't allowed access to admin duties</p>
 			            
@@ -53,7 +59,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Admin/js/custom.js"></script>
   </body>
 </html>

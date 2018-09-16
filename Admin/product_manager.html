@@ -4,9 +4,9 @@
     <title>Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- styles -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="Admin/css/styles.css" rel="stylesheet">
   </head>
   <body>
   	<div class="header">
@@ -85,7 +85,7 @@
                                         </div>
                                 </div>
                                 <div class="panel-body">
-                                    <form>
+                                    <form method="POST" action="?action=add_size">
                                         <!-- Add a size -->
                                         <div class="col-sm-7">
                                             <h2>Add a product size</h2>
@@ -104,10 +104,12 @@
                                             </thead>
 
                                             <tbody>
+                                                <?php foreach($sizes as $size): ?>
                                               <tr>
-                                                  <td ><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                <td>Large</td>
+                                                  <td ><a href="?action=flag_size&ID=<?php echo $size['sizeID']; ?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                <td><?php echo $size['sizeCode']; ?></td>
                                               </tr>
+                                              <?php endforeach; ?>
                                             </tbody>
                                           </table>
                                               </div>  
@@ -115,14 +117,14 @@
                                         
                                     </form>
                                     <div class="col-sm-10"><hr></div>
-                                    <form>
+                                    <form action="?action=add_color" method="POST">
                                        <!-- Add product colours --> 
                                        <div class="col-sm-7">
                                            <h2>Add a product colour</h2> 
                                            <label>Enter colour name:</label><br>
                                             <input type="text" class="form-control" name="prod_color"><br>
                                             <input type="submit" value="Add colour" class="btn btn-primary"><br><br>
-                                            <h2>Remove a product size</h2>
+                                            <h2>Remove a color</h2>
                                             
                                             <!--Deleting a product size-->
                                             <div class="col-sm-9"><table class="table table-bordered">
@@ -134,10 +136,12 @@
                                             </thead>
 
                                             <tbody>
+                                                <?php foreach($colors as $color): ?>
                                               <tr>
-                                                  <td ><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                <td>Red</td>
+                                                  <td ><a href="?action=flag_size&ID=<?php echo $color['colorID']; ?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                <td><?php echo $color['colorName']; ?></td>
                                               </tr>
+                                              <?php endforeach; ?>
                                             </tbody>
                                           </table>
                                               </div>
@@ -145,7 +149,7 @@
                                        
                                     </form>
                                     <div class="col-sm-10"><hr></div>
-                                    <form>
+                                    <form action="?action=add_categ" method="POST">
                                        <!-- adding categories user might want to see -->
                                        <div class="col-sm-7">
                                            <h2>Add categories</h2> 
@@ -164,10 +168,12 @@
                                             </thead>
 
                                             <tbody>
+                                                <?php foreach($categories as $cat): ?>
                                               <tr>
-                                                  <td ><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                <td>Clothes</td>
+                                                  <td ><a href="?action=flag_size&ID=<?php echo $cat['categoryID']; ?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                <td><?php echo $cat['categoryName']; ?></td>
                                               </tr>
+                                              <?php endforeach; ?>
                                             </tbody>
                                           </table>
                                               </div>
@@ -197,7 +203,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Admin/js/custom.js"></script>
   </body>
 </html>

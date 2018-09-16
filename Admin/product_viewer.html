@@ -4,9 +4,9 @@
     <title>Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- styles -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="Admin/css/styles.css" rel="stylesheet">
   </head>
   <body>
   	<div class="header">
@@ -86,18 +86,30 @@
                                 </div>
                                 <div class="panel-body">
                                     
-                                    <form>
-                                    
-                                        <div class="col-sm-7"><label>Product Name</label><br><input required class="form-control" type="text" name="prod_name"><br></div>
-                                        <div class="col-sm-7"><label>Product Price</label><br><input required class="form-control" type="number" name="prod_price"><br></div>
-                                        <div class="col-sm-7"><label>Product Description</label><br><input required class="form-control" type="text" name="prod_desc"><br></div>
-                                        <div class="col-sm-7"><label>Product Quantity</label><br><input required class="form-control" type="text" name="prod_qty"><br></div>
-                                        <div class="col-sm-7"><label>Product Category</label><br><select class="form-control"><option>Hi</option></select><br></div>
-                                        <div class="col-sm-7"><label>Product Weight</label><br><input required class="form-control" type="text" name="prod_weight"><br></div>
-                                        <div class="col-sm-7"><label>Product Dimensions</label><br><input required class="form-control" type="text" name="prod_dimension"><br></div>
-                                        <div class="col-sm-7"><label>Product Material</label><br><input required class="form-control" type="text" name="prod_material"><br></div>
+                                    <form method="post" action="?action=find_product">
+                                        <div class="col-sm-7"><h1>Pick a product first</h1><br>
+                                            <label>Product Name:</label>
+                                            <select name="prod_id" required class="form-control">
+                                               <?php foreach($prods as $prod):?>
+                                               <option value="<?php echo $prod['productID']?>"><?php echo $prod['productTitle'] ?></option>
+                                               <?php endforeach; ?>
+                                            </select><br>
+                                            <input type="submit" value="Get Product" class="btn btn-primary"><br><br>
+                                        </div>
+                                    </form>
+                                    <form method="POST" action="?action=edit_product" enctype="multipart/form-data"> 
+                                           <input type="hidden" name="prod_id" value="<?php if(isset($product['productID'])){ echo $product['productID']; } ?>">
+                                           <input type="hidden" name="prod_pic_path" value="<?php if(isset($product['productImagePath'])){ echo $product['productImagePath']; } ?>">
+                                        <div class="col-sm-7"><label>Product Name</label><br><input value="<?php if(isset($product['productTitle'])){ echo $product['productTitle']; } ?>" required class="form-control" type="text" name="prod_name"><br></div>
+                                        <div class="col-sm-7"><label>Product Price</label><br><input value="<?php if(isset($product['productPrice'])){ echo $product['productPrice']; } ?>" required class="form-control" type="number" name="prod_price"><br></div>
+                                        <div class="col-sm-7"><label>Product Description</label><br><input value="<?php if(isset($product['productDesc'])){ echo $product['productDesc']; } ?>" required class="form-control" type="text" name="prod_desc"><br></div>
+                                        <div class="col-sm-7"><label>Product Quantity</label><br><input value="<?php if(isset($product['productQty'])){ echo $product['productQty']; } ?>" required class="form-control" type="text" name="prod_qty"><br></div>
+                                        <div class="col-sm-7"><label>Product Category</label><br><select required name="prod_category" class="form-control"><option></option><?php foreach($categories as $cat):?><option value="<?php echo $cat['categoryID']; ?>"><?php echo $cat['categoryName']; ?></option> <?php endforeach; ?></select><br></div>
+                                        <div class="col-sm-7"><label>Product Weight</label><br><input value="<?php if(isset($product['productWeight'])){ echo $product['productWeight']; } ?>" required class="form-control" type="text" name="prod_weight"><br></div>
+                                        <div class="col-sm-7"><label>Product Dimensions</label><br><input value="<?php if(isset($product['productDimmension'])){ echo $product['productDimmension']; } ?>" required class="form-control" type="text" name="prod_dimension"><br></div>
+                                        <div class="col-sm-7"><label>Product Material</label><br><input value="<?php if(isset($product['productMaterials'])){ echo $product['productMaterials']; } ?>" required class="form-control" type="text" name="prod_material"><br></div>
                                     <div class="col-sm-7"><label>Picture</label>
-                                        <input required type="file" name="prod_pic"> <br>
+                                        <input type="file" name="prod_pic"> <br>
                                     </div>
                                         <div class="col-sm-7"></div>
                                         <div class="col-sm-8"> <table class="table table-bordered" id="prod_deds"> 
@@ -108,9 +120,19 @@
                                                         <th>Quantity</th>
                                                     </tr>
                                                 </thead>
-                                                
+                                                <?php if(isset($SiQtCo)!=NULL):?>
+                                                <?php foreach($SiQtCo as $cur):?>
+                                                <tr>
+                                                    <td><input type="hidden" name="sizes[]" value="<?php echo $cur['sizeCode'] ?>"><?php echo $cur['sizeDesc']; ?></td>
+                                                    <td><input type="hidden" name="colours[]" value="<?php echo $cur['colorID']; ?>"><?php echo $cur['colorName']; ?></td>
+                                                    <td><input type="text" name="qtys[]" value="<?php echo $cur['productQty']; ?>"></td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
                                             </table><br></div>
-                                        <div class="col-sm-7"><input type="submit" value="Ok" class="btn btn-primary"><br><br></div>
+                                        <div class="col-sm-7"><input type="submit" value="Edit Product" class="btn btn-primary">&nbsp;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span style="font-size:20px; " class="glyphicon glyphicon-trash"></span><br><br></div>
                                     </form><br>
                                      
                                 </div>
@@ -135,7 +157,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Admin/js/custom.js"></script>
   </body>
 </html>

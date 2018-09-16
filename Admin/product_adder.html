@@ -4,9 +4,9 @@
     <title>Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- styles -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="Admin/css/styles.css" rel="stylesheet">
   </head>
   <body>
   	<div class="header">
@@ -86,13 +86,13 @@
                                 </div>
                                 <div class="panel-body">
                                     
-                                    <form>
+                                    <form enctype="multipart/form-data" method="POST" action="?action=add_product">
                                     
                                         <div class="col-sm-7"><label>Product Name</label><br><input required class="form-control" type="text" name="prod_name"><br></div>
                                         <div class="col-sm-7"><label>Product Price</label><br><input required class="form-control" type="number" name="prod_price"><br></div>
                                         <div class="col-sm-7"><label>Product Description</label><br><input required class="form-control" type="text" name="prod_desc"><br></div>
                                         <div class="col-sm-7"><label>Product Quantity</label><br><input required class="form-control" type="text" name="prod_qty"><br></div>
-                                        <div class="col-sm-7"><label>Product Category</label><br><select class="form-control"><option>Hi</option></select><br></div>
+                                        <div class="col-sm-7"><label>Product Category</label><br><select name="category" class="form-control"> <?php foreach($categories as $cat):?><option value="<?php echo $cat['categoryID']; ?>"><?php echo $cat['categoryName']; ?></option> <?php endforeach; ?></select><br></div>
                                         <div class="col-sm-7"><label>Product Weight</label><br><input required class="form-control" type="text" name="prod_weight"><br></div>
                                         <div class="col-sm-7"><label>Product Dimensions</label><br><input required class="form-control" type="text" name="prod_dimension"><br></div>
                                         <div class="col-sm-7"><label>Product Material</label><br><input required class="form-control" type="text" name="prod_material"><br></div>
@@ -135,7 +135,22 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Admin/js/custom.js"></script>
+    <script>
+    function AddNewRow(){
+    var size = "<select name='sizes[]' class='form-control'> <?php echo $size_string; ?></select>";
+    var colour= "<select name='colours[]' class='form-control'><?php echo $colors_string; ?></select>";
+    var qty = '<input type="number" name="qtys[]" min="1" required> ';
+    var table = document.getElementById("prod_deds");
+    var row = table.insertRow(1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = size;
+    cell2.innerHTML = colour;
+    cell3.innerHTML = qty;
+}
+    </script>
   </body>
 </html>

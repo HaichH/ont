@@ -71,3 +71,120 @@ function get_all_category() {
     $sql = 'CALL uspGetAllCategory  ';
     return DatabaseHandler::GetAll($sql);
 }
+function login_admin($username, $password) {
+    $sql = 'CALL uspLoginAdmin(?,?)';
+    $paras = array(
+        $username,
+        $password
+    ); 
+    return DatabaseHandler::GetRow($sql, $paras);
+}
+function get_sizes() {
+     $sql = 'CALL uspGetAllSize  ';
+    return DatabaseHandler::GetAll($sql);
+}
+
+function get_all_colours() {
+   $sql = 'CALL uspGetAllColor';
+   return DatabaseHandler::GetAll($sql);
+}
+function add_product($img_path,$price, $qty, $desc,$title, $weight, $dime, $materials ) {
+    $sql =" CALL uspAddProduct(?,?,?,?,?,?,?,?)";
+    $paras = array(
+        $img_path,$price, 
+        $qty,
+        $desc,
+        $title, 
+        $weight, 
+        $dime, 
+        $materials
+        
+    );
+    return DatabaseHandler::Execute($sql,$paras);
+}
+function add_qt_size_color($color, $size, $qty, $img) {
+     $sql =" CALL uspAddProductSCQ(?,?,?,?)";
+     $paras = array(
+         $color, $size, $qty, $img
+     );
+     return DatabaseHandler::Execute($sql,$paras);
+}
+
+function get_products() {
+    $sql =" CALL uspGetAllProducts";
+    return DatabaseHandler::GetAll($sql);
+}
+function update_product($productID, $img_path,$price, $qty, $desc,$title, $weight, $dime, $materials) {
+    $sql =" CALL uspUpdateProduct(?,?,?,?,?,?,?,?,?)";
+    $paras = array(
+        $productID,
+        $img_path,$price, 
+        $qty,
+        $desc,
+        $title, 
+        $weight, 
+        $dime, 
+        $materials,
+               
+    );
+    return DatabaseHandler::Execute($sql,$paras);
+}
+function update_qty($prod_id, $color, $size, $qty) {
+    $sql =" CALL uspUpdateSCQ(?,?,?,?)";
+     $paras = array(
+         $prod_id, $color, $size, $qty
+     );
+     return DatabaseHandler::Execute($sql,$paras);
+}
+
+function get_qty_col_size($prod_id) {
+     $sql = 'CALL uspGetSCQ(?)';
+    $paras = array(
+        $prod_id
+    ); 
+    return DatabaseHandler::GetAll($sql, $paras);
+}
+
+function flag_category($ID) {
+    $sql = 'CALL uspFlagCategory(?)';
+    $paras = array(
+        $ID
+    ); 
+    return DatabaseHandler::Execute($sql,$paras);
+}
+
+function flag_size($ID) {
+    $sql = 'CALL uspFlagSize(?)';
+    $paras = array(
+        $ID
+    );
+    return DatabaseHandler::Execute($sql,$paras);
+}
+
+function flag_color($ID) {
+    $sql = 'CALL uspFlagColor(?)';
+    $paras = array(
+      $ID
+    ); 
+    return DatabaseHandler::Execute($sql,$paras);
+}
+
+function add_category($name){
+	$sql = 'CALL uspAddCategory (?, ?)';
+	$paras = array($name, $name);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+
+function add_size($desc){
+	$sql = 'CALL uspAddSize (?,?)';
+	$paras = array($desc, $desc);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+
+function add_color($color){
+	$sql = 'CALL uspAddColor (?,?)';
+	$paras = array($color, $color);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+
+

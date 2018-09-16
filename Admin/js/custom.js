@@ -41,20 +41,19 @@ function openCity(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 
-
-function AddNewRow(){
-    var size = '<select name="sizes[]" class="form-control" required><option>PHP will generate this</option></select>';
-    var colour= '<select name="colours[]" class="form-control" required><option>PHP will generate this</option></select>';
-    var qty = '<input type="number" name="qtys[]" required> ';
-    var table = document.getElementById("prod_deds");
-    var row = table.insertRow(1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = size;
-    cell2.innerHTML = colour;
-    cell3.innerHTML = qty;
-}
+//function AddNewRow(){
+//    var size = '<select name="sizes[]" class="form-control" required></select>';
+//    var colour= '<select name="colours[]" class="form-control" required><option>PHP will generate this</option></select>';
+//    var qty = '<input type="number" name="qtys[]" required> ';
+//    var table = document.getElementById("prod_deds");
+//    var row = table.insertRow(1);
+//    var cell1 = row.insertCell(0);
+//    var cell2 = row.insertCell(1);
+//    var cell3 = row.insertCell(2);
+//    cell1.innerHTML = size;
+//    cell2.innerHTML = colour;
+//    cell3.innerHTML = qty;
+//}
 
 function RemoveRows(){
     

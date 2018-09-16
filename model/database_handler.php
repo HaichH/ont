@@ -5,8 +5,8 @@ class DatabaseHandler
 	// Hold an instance of the PDO class
 	private static $conn;
 	private static $dsn = 'mysql:host=localhost;dbname=uncommon_db';
-    private static $username = 'Anathi';
-    private static $password = 'anathi123anathi';
+    private static $username = 'uncom_ghost';
+    private static $password = '!Invisible@2';
     
 	//Private constructor to prevent direct creation of object
 	private function _construct()
