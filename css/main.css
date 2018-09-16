@@ -3216,6 +3216,11 @@ input.num-product::-webkit-inner-spin-button {
   .respon4 {
     width: 50%;
   }
+  
+  .cr{
+      width: 70%;
+  overflow: hidden;
+  }
 
   /*---------------------------------------------*/
   .respon5 {
@@ -3250,6 +3255,8 @@ input.num-product::-webkit-inner-spin-button {
   .respon4 {
     width: 100%;
   }
+  
+ 
 
 }
 
@@ -3299,7 +3306,7 @@ input.num-product::-webkit-inner-spin-button {
     padding-left: 60px;
   }
 
-  
+ 
 }
 
 
@@ -3328,5 +3335,8 @@ input.num-product::-webkit-inner-spin-button {
   .respon3 {
     padding: 20px;
   }
+  
+
 
 }
+

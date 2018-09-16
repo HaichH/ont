@@ -40,7 +40,7 @@ switch ($action){
        
         $business = get_business();
         
-        include('/Admin/company_info.php');
+        include('Admin/company_info.php');
         break;
     case 'update_business':
         $name = filter_input(INPUT_POST,'company_name');
@@ -58,35 +58,18 @@ switch ($action){
         $Username  = filter_input(INPUT_POST,'username');
         $Password  = filter_input(INPUT_POST,'password');
          $target    = filter_input(INPUT_POST,'old_path');
-        if (isset($_FILES['company_logo'])) {
-                $filename = $_FILES['company_logo']['name'];
-                if (!empty($filename)) {
-                    
-                
-                        $source = $_FILES['company_logo']['tmp_name'];
-                         $i = strrpos($filename, '.');
-                        $image_name = substr($filename, 0, $i);
-                        $ext = substr($filename, $i);
-                        $target = $image_dir_path . DIRECTORY_SEPARATOR ."icons" . DIRECTORY_SEPARATOR . "company_logo". $ext ;
-                           if (file_exists($target)) {
-                                        unlink($target);
-//                                       $target1 = $image_dir_path . DIRECTORY_SEPARATOR ."icons" . DIRECTORY_SEPARATOR . "company_logo_100". $ext ;
-//                                        if(file_exists($target1)){
-//                                               unlink( $$target1);
-//                                        }
-//                                       $target4 = $image_dir_path . DIRECTORY_SEPARATOR ."icons" . DIRECTORY_SEPARATOR . "company_logo_400.png". $ext ;
-//                                        if(file_exists($target4)){
-//                                               unlink( $$target4);
-//                                        }
-                                }
-                        move_uploaded_file($source, $target);
-                        // create the '400' and '100' versions of the image
-                        //process_image($image_dir_path. DIRECTORY_SEPARATOR ."icons" , "company_logo". $ext  );
-                        $target = "company_logo". $ext;
-                }
-                
-        } 
-        update_business($name,$target,$aboutUs,$email,$phone,$facebook,
+        if(!file_exists($_FILES['company_logo']['tmp_name']) || !is_uploaded_file($_FILES['company_logo']['tmp_name'])) 
+        {
+            $directory = filter_input(INPUT_POST, 'old_path');
+        }   
+        else{
+        $img_name = date("H-i-s").$_FILES['company_logo']['name'];
+        $directory = "images/icons/".$img_name;
+        move_uploaded_file($_FILES['company_logo']['tmp_name'],$directory);
+        $directory_old = filter_input(INPUT_POST, 'old_path');
+        unlink($directory_old);
+        }
+        update_business($name,$directory,$aboutUs,$email,$phone,$facebook,
                  $addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password);
           header("Location: controller_index.php?action=load_business");
           break;
@@ -164,7 +147,7 @@ switch ($action){
          $categories = get_all_category();
          $not_showing = get_all_not_showing_products();
          $showing = get_top_showing_products();
-        include '/Admin/homepage_edditor.php';
+        include 'Admin/homepage_edditor.php';
         break;
     case 'add_section_three':
         $ProductID = filter_input(INPUT_POST,'show_product');
@@ -346,7 +329,10 @@ switch ($action){
         $showing = get_top_showing_products();
         $sectiontwo = get_all_section_two();
          $business = get_business();
-        include 'model/home.php';
+        include 'home-03.html';
+        break;
+    case 'products':
+        $products = get_products();
         break;
     case 'product_detail':
         
