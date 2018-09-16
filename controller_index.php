@@ -1,4 +1,24 @@
 <?php
+  session_start(); 
+    if(isset($_GET['page'])){ 
+          
+        $pages=array("products", "cart"); 
+          
+        if(in_array($_GET['page'], $pages)) { 
+              
+            $_page=$_GET['page']; 
+              
+        }else{ 
+              
+            $_page="products"; 
+              
+        } 
+          
+    }else{ 
+          
+        $_page="products"; 
+          
+    } 
 include('model/database_handler.php');
 include('model/product_model.php');
 
@@ -327,6 +347,23 @@ switch ($action){
         $sectiontwo = get_all_section_two();
          $business = get_business();
         include 'model/home.php';
+        break;
+    case 'product_detail':
+        
+        $ProductID = filter_input(INPUT_GET,'product_id',FILTER_VALIDATE_INT);
+        $Product = get_product_by_id($ProductID);
+        $Sizes =  get_size_by_product_id($ProductID);
+        $Colors =  get_color_by_product_id($ProductID);
+        include 'model/product-detail.php';
+        break;
+      case 'add_to_cart':
+        
+//        $OrderID = filter_input(INPUT_POST,'');
+//        $ProductID = filter_input(INPUT_POST,'product_id');
+//        $UnitPrice = filter_input(INPUT_POST,'product_price');
+//        $Qty = filter_input(INPUT_POST,'num_product');
+//        add_order_line($OrderID,$ProductID,$UnitPrice,$Qty); 
+        include 'model/product-detail.php';
         break;
 }
 
