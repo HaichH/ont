@@ -21,12 +21,7 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="input-group form">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button">Search</button>
-                                    </span>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -161,12 +156,8 @@
                                                     <h3>Categories mixed with pictures and descriptive texts </h3>
                                                     <form action="" method="post"   enctype="multipart/form-data">
 
-                                                        <div class="col-sm-7"><label>Category</label><br>
-                                                                <select class="form-control" name="categpry">
-                                                                <?php foreach ($categories  as $cat) :?>
-                                                                <option value='<?php echo $cat['categoryDesc'];?>'><?php echo $cat['categoryDesc'];?></option>
-                                                                <?php endforeach;?>
-                                                            </select>
+                                                        <div class="col-sm-7"><label>Type in Category</label><br>
+                                                            <input type="text" class="form-control" name="categpry">
                                                             <br></div>
 
                                                         <div class="col-sm-7"><label>Descriptive text</label><br><input required class="form-control" type="text" name="prim_text"><br></div>
@@ -231,7 +222,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="panel-body">
-                                                                        <h3>Add a slide in picture with content </h3>
+                                                                        <h3>Add top pictures(NB this feature has a bug and will be updated in future versions)</h3>
                                                                         <form method="post" action="">
                                                                             <div class="col-sm-7"><label>Secondary / bottom text</label><br>
                                                                                 <select class="form-control" name="show_product">
@@ -240,7 +231,7 @@
                                                                                      <?php endforeach;?>
                                                                                 </select><br></div>
                                                                             <input type="hidden" name="action" value="add_section_three">
-                                                                            <div class="col-sm-7"><input type="submit" value="Add new content" class="btn btn-primary"><br><br></div>
+                                                                            <div class="col-sm-7"><input type="submit" disabled value="Add new content" class="btn btn-primary"><br><br></div>
                                                                         </form><br>
 
                                                                         <div class="col-sm-7"><hr><h3>Edit existing content and picture</h3></div>
@@ -257,13 +248,13 @@
                                                                                 <?php foreach( $showing as $sect) : ?>
                                                                                     <form method="post"  enctype="multipart/form-data">
                                                                                         <tr>
-                                                                                            <td ><a href="controller_index.php?action=remove_product&product_id=<?php echo $sect['productID'];?>&section=three"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                                                            <td ><a href="controller_index.php?action=remove_product&product_id=<?php //echo $sect['productID'];?>&section=three"><span class="glyphicon glyphicon-trash"></span></a></td>
                                                                                             <td> <?php echo $sect['categoryDesc'];?></td>
-                                                                                            <td><img src="<?php echo "images/".$sect['productImagePath'];?>" alt="<?php echo "images/".$sect['productImagePath'];?>" width="80"> <br>
+                                                                                            <td><img src="<?php echo "".$sect['productImagePath'];?>" alt="<?php echo "".$sect['productImagePath'];?>" width="80"> <br>
                                                                                             <p>Change image: </p>
 
                                                                                             <input type="file" name="slide_pic"><br>
-                                                                                            <input type="submit" value="update" class="btn btn-primary">
+                                                                                            <input type="submit" disabled value="update" class="btn btn-primary">
                                                                                             <input type="hidden" name="action" value="update_product_pic">
                                                                                             <input type="hidden" name="product_id" value="<?php echo $sect['productID'];?>">
                                                                                             <input type="hidden" name="section" value="three">
