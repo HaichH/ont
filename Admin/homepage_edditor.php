@@ -111,7 +111,7 @@
                                             <div class="col-sm-9"><table class="table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>Option</th>
+                                                            <th>Delete</th>
                                                             <th>Primary text</th>
                                                             <th>Secondary text</th>
                                                             <th>Image</th>
@@ -122,8 +122,7 @@
                                                         <?php foreach( $sectionone as $sect) : ?>
                                                         <form method="post"  enctype="multipart/form-data">
                                                         <tr>
-                                                            <td ><a href="controller_index.php?action=delete_section_one&sectionone_id=<?php echo $sect['SectionID'];?>&section=one"><span class="glyphicon glyphicon-trash"></span><br><br><br> <span class="glyphicon glyphicon-pencil"></span><br><br><br>
-                                                                    <span class="glyphicon glyphicon-ok"></span></a></td>
+                                                            <td ><a href="controller_index.php?action=delete_section_one&sectionone_id=<?php echo $sect['SectionID'];?>&section=one"><span class="glyphicon glyphicon-trash"></span></a></td>
                                                                     <td> <input type="text" name="prim_text" value="<?php echo $sect['FirstText'];?>"></td>
                                                                     <td><input type="text" name="sec_text" value="<?php echo $sect['SecondText'];?>"></td>
                                                             <td><img src="<?php echo "images/".$sect['ImagePath'];?>" alt="<?php echo "images/".$sect['ImagePath'];?>" width="80"> <br>
@@ -182,7 +181,7 @@
                                                                 <div class="col-sm-9"><table class="table table-bordered">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Option</th>
+                                                                                <th>Delete</th>
                                                                                 <th>Category</th>
                                                                                 <th>Catchy text</th>
                                                                                 <th>Image</th>
@@ -193,8 +192,7 @@
                                                         <?php foreach( $sectiontwo as $sect) : ?>
                                                         <form method="post"  enctype="multipart/form-data">
                                                         <tr>
-                                                            <td ><a href="controller_index.php?action=delete_section_one&sectionone_id=<?php echo $sect['SectionID'];?>&section=two"><span class="glyphicon glyphicon-trash"></span><br><br><br> <span class="glyphicon glyphicon-pencil"></span><br><br><br>
-                                                                    <span class="glyphicon glyphicon-ok"></span></a></td>
+                                                            <td ><a href="controller_index.php?action=delete_section_one&sectionone_id=<?php echo $sect['SectionID'];?>&section=two"><span class="glyphicon glyphicon-trash"></span></a></td>
                                                                     <td> <input type="text" name="prim_text" value="<?php echo $sect['FirstText'];?>"></td>
                                                                     <td><input type="text" name="sec_text" value="<?php echo $sect['SecondText'];?>"></td>
                                                             <td><img src="<?php echo "images/".$sect['ImagePath'];?>" alt="<?php echo "images/".$sect['ImagePath'];?>" width="80"> <br>
@@ -234,12 +232,14 @@
                                                                     </div>
                                                                     <div class="panel-body">
                                                                         <h3>Add a slide in picture with content </h3>
-                                                                        <form>
-
-
-
-                                                                            <div class="col-sm-7"><label>Secondary / bottom text</label><br><select class="form-control"><option>Haich</option></select><br></div>
-
+                                                                        <form method="post" action="">
+                                                                            <div class="col-sm-7"><label>Secondary / bottom text</label><br>
+                                                                                <select class="form-control" name="show_product">
+                                                                                     <?php foreach( $not_showing as $sect) : ?>
+                                                                                    <option value="<?php echo $sect['productID'];?>"><?php echo $sect['productDesc'];?></option>
+                                                                                     <?php endforeach;?>
+                                                                                </select><br></div>
+                                                                            <input type="hidden" name="action" value="add_section_three">
                                                                             <div class="col-sm-7"><input type="submit" value="Add new content" class="btn btn-primary"><br><br></div>
                                                                         </form><br>
 
@@ -254,19 +254,27 @@
                                                                                 </thead>
 
                                                                                 <tbody>
-                                                                                    <tr>
-                                                                                        <td ><a href="#"><span class="glyphicon glyphicon-trash"></span><br><br><br> <span class="glyphicon glyphicon-pencil"></span><br><br><br>
-                                                                                                <span class="glyphicon glyphicon-ok"></span></a></td>
-                                                                                        <td>Shoe</td>
-
-                                                                                        <td><img src="shoe.jpg" alt="shoe" width="80"> <br>
+                                                                                <?php foreach( $showing as $sect) : ?>
+                                                                                    <form method="post"  enctype="multipart/form-data">
+                                                                                        <tr>
+                                                                                            <td ><a href="controller_index.php?action=remove_product&product_id=<?php echo $sect['productID'];?>&section=three"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                                                            <td> <?php echo $sect['categoryDesc'];?></td>
+                                                                                            <td><img src="<?php echo "images/".$sect['productImagePath'];?>" alt="<?php echo "images/".$sect['productImagePath'];?>" width="80"> <br>
                                                                                             <p>Change image: </p>
-                                                                                            <form>
-                                                                                                <input type="file" name="section1_img"><br>
-                                                                                                <input type="submit" value="update image" class="btn btn-primary">
-                                                                                            </form>
-                                                                                        </td>
-                                                                                    </tr>
+
+                                                                                            <input type="file" name="slide_pic"><br>
+                                                                                            <input type="submit" value="update" class="btn btn-primary">
+                                                                                            <input type="hidden" name="action" value="update_product_pic">
+                                                                                            <input type="hidden" name="product_id" value="<?php echo $sect['productID'];?>">
+                                                                                            <input type="hidden" name="section" value="three">
+
+                                                                                            <input type="hidden" name="old_pic" value="<?php echo $sect['productImagePath'];?>">
+
+                                                                                            </td>
+
+                                                                                        </tr>
+                                                                                    </form>
+                                                                                <?php endforeach;?>
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>  
@@ -291,8 +299,28 @@
                                                                 <!-- Include all compiled plugins (below), or include individual files as needed -->
                                                                 <script src="Admin/bootstrap/js/bootstrap.min.js"></script>
                                                                 <script src="Admin/js/custom.js"></script>
-                                                                <script>
-                                document.getElementById("defaultOpen").click();
+                                                                
+                                                        
+                                                              <?php if(isset($_GET["section"])){
+                                                            if ($_GET["section"] == "two") { ?>
+                                                            <script type='text/javascript'> 
+                                                            openCity(event, 'sectionTwo');
+                                                            </script>
+                                                            <?php } elseif ($_GET["section"] == "three") {?>
+                                                                <script type='text/javascript'> 
+                                                            openCity(event, 'sectionThree');
+                                                            </script>
+                                                              <?php }else {?>
+                                                                <script type='text/javascript'> 
+                                                             openCity(event, 'sectionOne');
+                                                            </script>
+                                                            <?php }} else {?>
+                                                                <script type='text/javascript'> 
+                                                             openCity(event, 'sectionOne');
+                                                            </script>
+                                                            <?php } ?>
+                                                            <script>
+                                                                // document.getElementById("defaultOpen").click();
                                                                 </script>
                                                                 </body>
                                                                 </html>

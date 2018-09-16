@@ -24,6 +24,13 @@ function get_section_one_by_id($sectionID){
         $paras = array($sectionID);
 	return DatabaseHandler::GetRow($sql,$paras);
 }
+function delete_section_one($sectionID){
+	$sql = 'CALL uspDeleteSectionOne (?)';
+	$paras = array($sectionID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+//End of section one methods
+//Section 2 methods
 function get_all_section_two(){
 	$sql = 'CALL uspGetSectionTwo  ';
 	return DatabaseHandler::GetAll($sql);
@@ -48,6 +55,8 @@ function delete_section_two($sectionID){
 	$paras = array($sectionID);
 	return DatabaseHandler::Execute($sql,$paras);
 }
+//End of section two methods
+//business section 
 function get_business(){
 	$sql = 'CALL uspGetBusiness  ';
 	return DatabaseHandler::GetRow($sql);
@@ -62,11 +71,7 @@ function add_business($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressL
 	$paras = array($name,$logoPath,$aboutUs,$email,$phone,$facebook,$addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password);
 	return DatabaseHandler::Execute($sql,$paras);
 }	
-function delete_section_one($sectionID){
-	$sql = 'CALL uspDeleteSectionOne (?)';
-	$paras = array($sectionID);
-	return DatabaseHandler::Execute($sql,$paras);
-}
+
 function get_all_category() {
     $sql = 'CALL uspGetAllCategory  ';
     return DatabaseHandler::GetAll($sql);
@@ -188,3 +193,35 @@ function add_color($color){
 }
 
 
+function get_all_not_showing_products() {
+    $sql = 'CALL uspGetNotShowing  ';
+    return DatabaseHandler::GetAll($sql);
+}
+
+function get_top_showing_products() {
+    $sql = 'CALL uspGetTopShowing  ';
+    return DatabaseHandler::GetAll($sql);
+}
+function show_product($IsShow,$ProductID){
+	$sql = 'CALL uspAddSectionThree (?,?) ';
+        $paras = array($IsShow,$ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+function update_product_pic($pic,$ProductID){
+	$sql = 'CALL uspUpdateProductPic (?,?) ';
+        $paras = array($pic,$ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+//end of oder line section
+//product section 
+function get_product_by_id($ProductID){
+	$sql = 'CALL uspGetProductByID (?) ';
+        $paras = array($ProductID);
+	return DatabaseHandler::GetRow($sql,$paras);
+}
+function get_product_by_cat($categoryID){
+	$sql = 'CALL uspGetProductsByCategory (?) ';
+        $paras = array($categoryID);
+	return DatabaseHandler::GetRow($sql,$paras);
+}
+//end of product section
