@@ -46,7 +46,7 @@
 					
 					<!-- Logo desktop -->		
 					<a href="#" class="logo">
-                                            <img src="<?php echo $business['LogoPath'];?>" alt="IMG-LOGO">                                               
+                                            <img src="<?php echo "images/icons/".$business['LogoPath'];?>" alt="<?php echo "images/icons/".$business['LogoPath'];?>">                                               
 					</a>
 
 					<!-- Menu desktop -->
@@ -353,19 +353,19 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="item-slick1 bg-overlay1" style="background-image: url(images/uncomon2.jpeg);" data-thumb="images/thumb-02.jpg" data-caption="Men’s Wear">
+                         <?php foreach( $sectionone as $sect) : ?>
+				<div class="item-slick1 bg-overlay1" style="background-image: url(<?php echo "images/".$sect['ImagePath'];?>);" data-thumb="images/thumb-02.jpg" data-caption="Men’s Wear">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
 								<span class="ltext-202 txt-center cl0 respon2">
-									Kicks
+									<?php echo $sect['FirstText'];?>
 								</span>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
 								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
-									Comfortable and light
+									<?php echo $sect['SecondText'];?>
 								</h2>
 							</div>
 								
@@ -377,7 +377,7 @@
 						</div>
 					</div>
 				</div>
-
+                            <?php endforeach;?>
 				<div class="item-slick1 bg-overlay1" style="background-image: url(images/uncomon3.jpeg);" data-thumb="images/thumb-03.jpg" data-caption="Men’s Wear">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
@@ -412,19 +412,21 @@
 	<div class="sec-banner bg0 p-t-95 p-b-55">
 		<div class="container">
 			<div class="row">
+                            <?php foreach( $sectiontwo as $sect) : ?>
 				<div class="col-md-6 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
-						<img src="images/uncomon_clothes.jpeg" alt="IMG-BANNER">
+						<img src="<?php echo "images/".$sect['ImagePath'];?>" alt="IMG-BANNER">
 
 						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Clothes
+								<?php echo $sect['SecondText'];?>
 								</span>
 
 								<span class="block1-info stext-102 trans-04">
-									Coolest Trends
+									
+                                                                    	<?php echo $sect['FirstText'];?>
 								</span>
 							</div>
 
@@ -436,7 +438,7 @@
 						</a>
 					</div>
 				</div>
-
+ <?php endforeach;?>
 				<div class="col-md-6 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
@@ -713,11 +715,12 @@
 			</div>
 
 			<div class="row isotope-grid">
+                               <?php foreach( $showing as $sect) : ?>
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0 label-new" data-label="New">
-							<img src="images/jacket1.jpg" alt="IMG-PRODUCT">
+							<img src="<?php echo "images/".$sect['productImagePath'];?>" alt="<?php echo "images/".$sect['productImagePath'];?>">
 
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 								Quick View
@@ -727,11 +730,11 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Jacket
+									<?php echo $sect['productTitle'];?>
 								</a>
 
 								<span class="stext-105 cl3">
-									$00.00
+									<?php echo $sect['productPrice'];?>
 								</span>
 							</div>
 
@@ -744,6 +747,7 @@
 						</div>
 					</div>
 				</div>
+                                 <?php endforeach;?>
 
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->

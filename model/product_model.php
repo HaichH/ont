@@ -71,3 +71,22 @@ function get_all_category() {
     $sql = 'CALL uspGetAllCategory  ';
     return DatabaseHandler::GetAll($sql);
 }
+function get_all_not_showing_products() {
+    $sql = 'CALL uspGetNotShowing  ';
+    return DatabaseHandler::GetAll($sql);
+}
+
+function get_top_showing_products() {
+    $sql = 'CALL uspGetTopShowing  ';
+    return DatabaseHandler::GetAll($sql);
+}
+function show_product($IsShow,$ProductID){
+	$sql = 'CALL uspAddSectionThree (?,?) ';
+        $paras = array($IsShow,$ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+function update_product_pic($pic,$ProductID){
+	$sql = 'CALL uspUpdateProductPic (?,?) ';
+        $paras = array($pic,$ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
