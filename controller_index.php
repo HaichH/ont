@@ -323,7 +323,7 @@ switch ($action){
         $showing = get_top_showing_products();
         $sectiontwo = get_all_section_two();
          $business = get_business();
-        include 'model/home.php';
+        include 'home-03.html';
         break;
     case 'product':
         $business = get_business();
