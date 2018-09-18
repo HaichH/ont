@@ -88,7 +88,16 @@ function get_sizes() {
      $sql = 'CALL uspGetAllSize  ';
     return DatabaseHandler::GetAll($sql);
 }
-
+function get_size_by_product_id($ProductID) {
+    	$sql = 'CALL uspGetSizeByProduct (?)';
+	$paras = array($ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+function get_color_by_product_id($ProductID) {
+    	$sql = 'CALL uspGetColorByProduct (?)';
+	$paras = array($ProductID);
+	return DatabaseHandler::Execute($sql,$paras);
+}
 function get_all_colours() {
    $sql = 'CALL uspGetAllColor';
    return DatabaseHandler::GetAll($sql);
@@ -225,3 +234,10 @@ function get_product_by_cat($categoryID){
 	return DatabaseHandler::GetRow($sql,$paras);
 }
 //end of product section
+//OrderLine
+function add_order_line($OrderID,$ProductID,$UnitPrice,$Qty){
+	$sql = 'CALL uspAddOrderLine (?,?,?,?) ';
+        $paras = array($OrderID,$ProductID,$UnitPrice,$Qty);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+//End of OrderLine
