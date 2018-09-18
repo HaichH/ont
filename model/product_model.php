@@ -116,7 +116,7 @@ function add_qt_size_color($color, $size, $qty, $img) {
 }
 
 function get_products() {
-    $sql =" CALL uspGetAllProducts";
+    $sql =" CALL uspGetAllProdct";
     return DatabaseHandler::GetAll($sql);
 }
 function update_product($productID, $img_path,$price, $qty, $desc,$title, $weight, $dime, $materials) {

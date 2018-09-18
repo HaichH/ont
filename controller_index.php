@@ -311,9 +311,22 @@ switch ($action){
          $business = get_business();
         include 'home-03.html';
         break;
-    case 'products':
+    case 'product':
+        $business = get_business();
         $products = get_products();
+      //  print_r($products);
+        include 'product.html';
         break;
+    
+    case 'about':
+         $business = get_business();
+         include 'about.html';
+        break;
+    
+    case'contact':
+        $business = get_business();
+        include 'contact.html';
+    break;
 }
 
 

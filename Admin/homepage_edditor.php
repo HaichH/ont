@@ -49,24 +49,14 @@
                 <div class="col-md-2">
                     <div class="sidebar content-box" style="display: block;">
                         <ul class="nav">
-                            <!-- Main menu -->
-                            <li class="current"><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-                            <li><a href="calendar.html"><i class="glyphicon glyphicon-cog"></i> Company Info</a></li>
-                            <li><a href="stats.html"><i class="glyphicon glyphicon-cog"></i>Products</a></li>
-                            <li><a href="tables.html"><i class="glyphicon glyphicon-cog"></i> Homepage</a></li>
-                            <li><a href="buttons.html"><i class="glyphicon glyphicon-cog"></i>Product Details</a></li>
-                            <li class="submenu">
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-list"></i> Pages
-                                    <span class="caret pull-right"></span>
-                                </a>
-                                <!-- Sub menu -->
-                                <ul>
-                                    <li><a href="login.html">Homepage</a></li>
-                                    <li><a href="signup.html">Products</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <!-- Main menu -->
+                    <li class="current"><a href="?action=load_business"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                    <li><a href="?action=load_business"><i class="glyphicon glyphicon-cog"></i> Company Info</a></li>
+                    <li><a href="?action=product_add"><i class="glyphicon glyphicon-cog"></i>Products</a></li>
+                    <li><a href="?action=load_section_one"><i class="glyphicon glyphicon-cog"></i> Homepage</a></li>
+                    <li><a href="?action=manage_products"><i class="glyphicon glyphicon-cog"></i>Product Details</a></li>
+                    <li><a href="?action=find_product"><i class="glyphicon glyphicon-cog"></i>Edit Product</a></li>
+                </ul>
                     </div>
                 </div>
                 <div class="col-md-10">
