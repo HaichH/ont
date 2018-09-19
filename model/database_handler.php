@@ -5,8 +5,8 @@ class DatabaseHandler
 	// Hold an instance of the PDO class
 	private static $conn;
 	private static $dsn = 'mysql:host=localhost;dbname=uncommon_db';
-    private static $username = 'Anathi';
-    private static $password = 'anathi123anathi';
+    private static $username = 'uncom_ghost';
+    private static $password = '!Invisible@2';
     
 	//Private constructor to prevent direct creation of object
 	private function _construct()
@@ -25,9 +25,7 @@ class DatabaseHandler
 			catch (PDOException $e) 
 			{
 				self::Close();
-                $error_message = $e->getMessage();
-                include('errors/database_error.php');
-                exit();
+               die(print_r($error_message = $e->getMessage()));
             }
         }
         return self::$conn;
@@ -56,10 +54,8 @@ class DatabaseHandler
 		catch (PDOException $e) 
 		{
                 self::Close();
-				$error_message = $e->getMessage();
-                                die(print_r($e->getMessage()));
-              //  include('errors/database_error.php');
-                exit();
+		die(print_r($error_message = $e->getMessage()));
+            
         }
 		
 	}//End Execute()
@@ -75,6 +71,7 @@ class DatabaseHandler
 		{
 			//Get a connection
 			$pdo_conn = self::GetConnection();
+                        $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			//Prepare query for execution
 			$statement = $pdo_conn->prepare($sql);
 			//Execute query
@@ -84,9 +81,7 @@ class DatabaseHandler
 		catch (PDOException $e) 
 		{
                 self::Close();
-				$error_message = $e->getMessage();
-                include('errors/database_error.php');
-                exit();
+		die(print_r($error_message = $e->getMessage()));
         }
 		return $result;								
 	}//End GetAll
@@ -102,6 +97,7 @@ class DatabaseHandler
 		{
 			//Get a connection
 			$pdo_conn = self::GetConnection();
+                        $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			//Prepare query for execution
 			$statement = $pdo_conn->prepare($sql);
 			//Execute query
@@ -111,9 +107,8 @@ class DatabaseHandler
 		catch (PDOException $e) 
 		{
                 self::Close();
-				$error_message = $e->getMessage();
-                include('errors/database_error.php');
-                exit();
+				
+                                die(print_r($error_message = $e->getMessage()));
         }
 		return $result;								
 	}//End GetRow

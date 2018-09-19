@@ -269,6 +269,12 @@ switch ($action){
         $res = flag_category($ID);
         header("Location: controller_index.php?action=manage_products");
         break;
+    
+    case 'flag_product':
+        $prod_id = filter_input(INPUT_GET, 'id');
+        flag_product($prod_id);
+        header("Location: controller_index.php?action=product_edit");
+        break;
     case 'flag_color':
         $ID = filter_input(INPUT_GET, 'ID');
         $res = flag_color($ID);

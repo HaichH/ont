@@ -201,6 +201,12 @@ function add_color($color){
 	return DatabaseHandler::Execute($sql,$paras);
 }
 
+function flag_product($id) {
+    $sql = 'CALL FlagProduct(?)';
+	$paras = array($id);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+
 
 function get_all_not_showing_products() {
     $sql = 'CALL uspGetNotShowing  ';
