@@ -232,3 +232,19 @@ function get_product_by_cat($categoryID){
 	return DatabaseHandler::GetRow($sql,$paras);
 }
 //end of product section
+
+function get_product_colors($prod_id) {
+    $sql = 'CALL uspGetProductColors(?)';
+    $paras = array(
+        $prod_id
+    );
+    return DatabaseHandler::GetAll($sql, $paras);
+}
+
+function get_product_sizes($prod_id) {
+    $sql = 'CALL uspGetProductSizes(?)';
+    $paras = array(
+        $prod_id
+    );
+    return DatabaseHandler::GetAll($sql, $paras);
+}

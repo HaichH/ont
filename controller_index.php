@@ -1,7 +1,7 @@
 <?php
 include('model/database_handler.php');
 include('model/product_model.php');
-
+session_start();
 require_once 'file_util.php';  // the get_file_list function
 require_once 'image_util.php'; // the process_image function
 
@@ -335,6 +335,139 @@ switch ($action){
         $business = get_business();
         include 'contact.html';
     break;
+
+case'prod_details':
+    $business = get_business();
+    $prod_id = filter_input(INPUT_GET, 'ID');
+    $product = get_product_by_id($prod_id);
+    $prod_colors = get_product_colors($prod_id);
+    $sizes = get_product_sizes($prod_id);
+   // $product = get_product_by_id(3);
+    //die(print_r($product));
+    include 'product-detail.php';
+    break;
+case 'add_cart':
+    $prod_id = filter_input(INPUT_POST, 'prod_id');
+    $size =filter_input(INPUT_POST, 'sizes');
+    $color =filter_input(INPUT_POST, 'colors');
+    $qty =filter_input(INPUT_POST, 'buy_qty');
+    $business = get_business();
+    $product = get_product_by_id($prod_id);
+    $prod_colors = get_product_colors($prod_id);
+    $sizes = get_product_sizes($prod_id);
+    
+    if(isset($color)==NULL){
+        $color = "None";
+    }
+    if(!isset($size)==NULL){
+        $size = "None";
+    }
+    //match color codes with names and sizes with sizes
+    foreach ($prod_colors as $value) {
+        if(trim($value['colorID'])== trim($color)){
+             $color = trim($value['colorName']);
+        }else{
+             $color = "Default colour";
+        }
+    }
+    
+    foreach ($sizes as $value) {
+        if(trim($value['sizeCode'])== trim($size)){
+            $size = trim($value['sizeDesc']);
+        }else{
+            $size = "Default size";
+        }
+    }
+    //Create an array of the product
+    $product_array = array($product["productID"]=>array('title'=>$product["productTitle"], 'price'=>$product["productPrice"],
+        'image'=>$product["productImagePath"], 'quantity'=> $qty, 'size'=>$size, 'color'=> $color));
+    
+    //Then add the array to the session variables
+    //check if session variables are empty first
+    if(empty($_SESSION['cart_product'])){
+        //Create the cart item for the first time
+        $_SESSION["cart_product"] = $product_array;
+    }else{
+        //Check if the product already exists, to change sizes/colors/qty
+        if(in_array($product["productID"], array_keys($_SESSION['cart_product']))){
+            //If it does exist, loop through session items to find product and update it. 
+            foreach ($_SESSION['cart_product'] as $a => $value) {
+                if($product["productID"] == $a){
+                    $_SESSION['cart_product'][$a]['color'] =  $color ;
+                    $_SESSION['cart_product'][$a]['size'] = $size;
+                    $_SESSION['cart_product'][$a]['quantity'] = $qty;
+                }
+            }
+        }
+        else{
+            //Just add to the products
+            $_SESSION["cart_product"] = array_merge($_SESSION["cart_product"],$product_array);
+        }
+    }
+  // die(print_r($_SESSION));
+   
+    $added = TRUE;
+    include 'product-detail.php';
+    break;
+
+    case 'view_cart':
+        //Just include page and it'll do the rest
+        $business = get_business();
+        include 'shoping-cart.php';
+        break;
+    
+    case 'pay':
+        $phone_num = filter_input(INPUT_POST, 'phone_num');
+        $house_num = filter_input(INPUT_POST, 'house_num');
+        $street_name = filter_input(INPUT_POST, 'street_name');
+        $suburb = filter_input(INPUT_POST, 'suburb');
+        $city = filter_input(INPUT_POST, 'city');
+        //Loop through sessions and generate the products plus total pay
+        $cart_total =0;
+        $prods = "Clothes: +";
+        foreach ($_SESSION['cart_product'] as $value){ 
+            $line_total = $value['price']* $value['quantity'];
+            $cart_total += $line_total;
+            if ($value === end($array)) {
+        $prods.=$value['title'];
+        }else{
+            $prods.=$value['title']." | +";
+        }
+        }
+        if($cart_total < 1500){  
+        echo ($cart_total +100);}
+        else{
+            echo $cart_total;
+        }
+        
+        $pay_link = "https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=13121591&item_name=";
+        $pay_link.= "$prods&amount=";
+        $pay_link.= "$cart_total&return_url=";
+        $pay_link.= "https://www.uncommonwear.co.za/controller_index.php?action=paid&phone_num=$phone_num&house_num=$house_num";
+        $pay_link .= "&street_name=$street_name&suburb=$suburb&city=$city&amp;cancel_url=";
+        $pay_link.="https://www.uncommonwear.co.za/controller_index.php?";
+        header("LOCATION: $pay_link");
+        break;
+    
+    case'paid':
+        $phone_num = filter_input(INPUT_GET, 'phone_num');
+        $house_num = filter_input(INPUT_GET, 'house_num');
+        $street_name = filter_input(INPUT_GET, 'street_name');
+        $suburb = filter_input(INPUT_GET, 'suburb');
+        $city = filter_input(INPUT_GET, 'city');
+        //Send email!!! 
+        
+        $email_to_send = "Another delivery for today \nPhone Number: $phone_num\n Address:\n";
+        $email_to_send.= "$house_num $street_name, $suburb, $city";
+        $to = "admin@uncommonwear.co.za";
+        $subject = "Customer Delivery";
+        $txt = $email_to_send;
+        $headers = "From: webmaster@example.com" . "\r\n" .
+        "CC: admin@uncommonwear.co.za";
+        mail($to,$subject,$txt,$headers);
+        include 'confirmation.php';
+        break;
+
 }
 
 
