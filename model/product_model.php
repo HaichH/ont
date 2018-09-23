@@ -88,16 +88,7 @@ function get_sizes() {
      $sql = 'CALL uspGetAllSize  ';
     return DatabaseHandler::GetAll($sql);
 }
-function get_size_by_product_id($ProductID) {
-    	$sql = 'CALL uspGetSizeByProduct (?)';
-	$paras = array($ProductID);
-	return DatabaseHandler::Execute($sql,$paras);
-}
-function get_color_by_product_id($ProductID) {
-    	$sql = 'CALL uspGetColorByProduct (?)';
-	$paras = array($ProductID);
-	return DatabaseHandler::Execute($sql,$paras);
-}
+
 function get_all_colours() {
    $sql = 'CALL uspGetAllColor';
    return DatabaseHandler::GetAll($sql);
@@ -143,6 +134,13 @@ function update_product($productID, $img_path,$price, $qty, $desc,$title, $weigh
     );
     return DatabaseHandler::Execute($sql,$paras);
 }
+
+function flag_product($id) {
+    $sql = 'CALL FlagProduct(?)';
+	$paras = array($id);
+	return DatabaseHandler::Execute($sql,$paras);
+}
+
 function update_qty($prod_id, $color, $size, $qty) {
     $sql =" CALL uspUpdateSCQ(?,?,?,?)";
      $paras = array(
@@ -201,15 +199,9 @@ function add_color($color){
 	return DatabaseHandler::Execute($sql,$paras);
 }
 
-function flag_product($id) {
-    $sql = 'CALL FlagProduct(?)';
-	$paras = array($id);
-	return DatabaseHandler::Execute($sql,$paras);
-}
-
 
 function get_all_not_showing_products() {
-    $sql = 'CALL uspGetNotShowing  ';
+    $sql = 'CALL uspGetTopShowing  ';
     return DatabaseHandler::GetAll($sql);
 }
 
@@ -240,10 +232,3 @@ function get_product_by_cat($categoryID){
 	return DatabaseHandler::GetRow($sql,$paras);
 }
 //end of product section
-//OrderLine
-function add_order_line($OrderID,$ProductID,$UnitPrice,$Qty){
-	$sql = 'CALL uspAddOrderLine (?,?,?,?) ';
-        $paras = array($OrderID,$ProductID,$UnitPrice,$Qty);
-	return DatabaseHandler::Execute($sql,$paras);
-}
-//End of OrderLine

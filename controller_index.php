@@ -1,24 +1,4 @@
 <?php
-  session_start(); 
-    if(isset($_GET['page'])){ 
-          
-        $pages=array("products", "cart"); 
-          
-        if(in_array($_GET['page'], $pages)) { 
-              
-            $_page=$_GET['page']; 
-              
-        }else{ 
-              
-            $_page="products"; 
-              
-        } 
-          
-    }else{ 
-          
-        $_page="products"; 
-          
-    } 
 include('model/database_handler.php');
 include('model/product_model.php');
 
@@ -37,14 +17,14 @@ if(!isset($action)){
 
 switch ($action){
     case 'load_business':
-
+       
         $business = get_business();
-
+        
         include('Admin/company_info.php');
         break;
     case 'update_business':
         $name = filter_input(INPUT_POST,'company_name');
-
+      
         $aboutUs  = filter_input(INPUT_POST,'company_about');
         $email  = filter_input(INPUT_POST,'company_email');
         $phone  = filter_input(INPUT_POST,'company_phone');
@@ -73,6 +53,7 @@ switch ($action){
                  $addressLine1,$addressLine2,$city,$province,$Instagram,$twitter,$Username,$Password);
           header("Location: controller_index.php?action=load_business");
           break;
+        
     case 'add_section_one':
        // $imagePath  = filter_input(INPUT_POST,'old_path');
         $firstText  = filter_input(INPUT_POST,'prim_text');
@@ -83,7 +64,7 @@ switch ($action){
             if (!empty($filename)) {
                 $source = $_FILES['slide_pic']['tmp_name'];
                 $target = $image_dir_path . DIRECTORY_SEPARATOR .   $filename;
-
+                
                 move_uploaded_file($source, $target);
                 // create the '400' and '100' versions of the image
                // process_image($image_dir_path, $name."logo.png");
@@ -99,7 +80,7 @@ switch ($action){
         }
 
        break;
-    case 'update_section_one':
+   case 'update_section_one':
        $sectionID = filter_input(INPUT_POST,'Sec_id');;
         $imagePath = filter_input(INPUT_POST,'old_pic');
         $firstText  = filter_input(INPUT_POST,'prim_text');
@@ -112,9 +93,9 @@ switch ($action){
                 $source = $_FILES['slide_pic']['tmp_name'];
                 $target = $image_dir_path . DIRECTORY_SEPARATOR .   $filename;
                 $imagePath =   $filename ;
-    //                  if (file_exists($target)) {
-    //                       unlink($target);            
-    //                  }
+//                  if (file_exists($target)) {
+//                       unlink($target);            
+//                  }
                 move_uploaded_file($source, $target);
                 // create the '400' and '100' versions of the image
                // process_image($image_dir_path, $name."logo.png");
@@ -128,7 +109,7 @@ switch ($action){
              header("Location: controller_index.php?action=load_section_one&section=two");
         }
        break;       
-    case 'delete_section_one':
+   case 'delete_section_one':
            $sectionID = filter_input(INPUT_GET,'sectionone_id');
         $section = filter_input(INPUT_GET,'section');
             if($section=='one'){
@@ -138,7 +119,7 @@ switch ($action){
                  delete_section_two($sectionID);
                   header("Location: controller_index.php?action=load_section_one&section=two");
             }
-
+            
             break;
     case 'load_section_one':
         $sectionone = get_all_section_one();
@@ -153,31 +134,35 @@ switch ($action){
         show_product(true,$ProductID);
         header("Location: controller_index.php?action=load_section_one&section=three");
         break;
-    case 'login_page':
+    
+    case'login_page':
         include 'Admin/login.html';
     break;
+
     case 'login':
         $Username = filter_input(INPUT_POST, 'user');
         $Password = filter_input(INPUT_POST, 'pass');
-        $credentials = login_admin($Username, $Password);
-        if($credentials ==NULL){
-            $failure = true;
-            include 'Admin/login.html';
-        }else{
-            include 'Admin/index.html';
-        }
+      //  $credentials = login_admin($Username, $Password);
+     //   if($credentials ==NULL){
+       //     $failure = true;
+       //     include 'Admin/login.html';
+       // }else{
+      //      include 'Admin/index.html';
+      //  }
+		header("Location: controller_index.php?action=load_business");
         break;
-    case 'product_add':
+        
+    case'product_add':
         $categories = get_all_category();
         $sizes = get_sizes();
         $colors = get_all_colours();
-
+        
         //Need to stringfy size and colours to be dynamic
         $size_string = "";
         foreach($sizes as $size){
             $size_string .= " <option value='".$size['sizeID']."'>".$size['sizeDesc']."</option> ";      
         }
-
+        
         $colors_string = "";
         foreach($colors as $color){
             $colors_string .= " <option value='".$color['colorID']."'>".$color['colorName']."</option> ";      
@@ -202,17 +187,18 @@ switch ($action){
         move_uploaded_file($_FILES['prod_pic']['tmp_name'],$directory); 
        $is_added =  add_product($directory, $prod_price, $prod_qty, $prod_desc, $prod_name, $prod_weight, $prod_dim, $prod_material);
        foreach ($prod_qtys as $key => $value) {
-
+           
            add_qt_size_color($prod_colours[$key], $prod_sizes[$key], $value, $directory);
        }
        header("Location: controller_index.php?action=product_add");
-        break; 
-    case 'product_edit':
-        $prods = get_products();
-         $categories = get_all_category();
-        include 'Admin/product_viewer.html';
         break;
-    case 'find_product':
+        
+        case'product_edit':
+            $prods = get_products();
+             $categories = get_all_category();
+            include 'Admin/product_viewer.html';
+            break;
+        case 'find_product':
             $ProductID = filter_input(INPUT_POST, 'prod_id');
             $product = get_all_products($ProductID);
              $categories = get_all_category();
@@ -249,7 +235,7 @@ switch ($action){
         $is_eddited = update_product($prod_id, $directory, $prod_price, $prod_qty, $prod_desc, $prod_name, $prod_weight, $prod_dim, $prod_material, $prod_cat);
         if(isset($prod_qtys)){
         foreach ($prod_qtys as $key => $value) {
-
+           
            update_qty($prod_colours[$key], $prod_sizes[$key], $value, $prod_id);
         }}
             $product = get_all_products($prod_id);
@@ -258,22 +244,24 @@ switch ($action){
              $SiQtCo = get_qty_col_size($prod_id);
              include 'Admin/product_viewer.html';
         break;
-    case 'manage_products':
+    
+    case'manage_products':
         $categories = get_all_category();
         $colors = get_all_colours();
         $sizes = get_sizes();
         include 'Admin/product_manager.html';
         break;
+		
+		  case 'flag_product':
+        $prod_id = filter_input(INPUT_GET, 'id');
+        flag_product($prod_id);
+        header("Location: controller_index.php?action=product_edit");
+        break;
+		
     case 'flag_category':
         $ID = filter_input(INPUT_GET, 'ID');
         $res = flag_category($ID);
         header("Location: controller_index.php?action=manage_products");
-        break;
-    
-    case 'flag_product':
-        $prod_id = filter_input(INPUT_GET, 'id');
-        flag_product($prod_id);
-        header("Location: controller_index.php?action=product_edit");
         break;
     case 'flag_color':
         $ID = filter_input(INPUT_GET, 'ID');
@@ -285,17 +273,17 @@ switch ($action){
         $res = flag_size($ID);
          header("Location: controller_index.php?action=manage_products");
         break;
-    case 'add_categ':
+    case'add_categ':
          $name = filter_input(INPUT_POST, 'prod_category');
         $res = add_category($name);
          header("Location: controller_index.php?action=manage_products");
         break;
-    case 'add_size':
+    case'add_size':
         $desc = filter_input(INPUT_POST, 'prod_size');
         $res  = add_size($desc);
          header("Location: controller_index.php?action=manage_products");
         break;
-    case 'add_color':
+    case'add_color':
         $color = filter_input(INPUT_POST, 'prod_color');
         $res = add_color($color);
          header("Location: controller_index.php?action=manage_products");
@@ -313,9 +301,9 @@ switch ($action){
                 $source = $_FILES['slide_pic']['tmp_name'];
                 $target = $image_dir_path . DIRECTORY_SEPARATOR .   $filename;
                 $imagePath =   $filename ;
-    //                  if (file_exists($target)) {
-    //                       unlink($target);            
-    //                  }
+//                  if (file_exists($target)) {
+//                       unlink($target);            
+//                  }
                 move_uploaded_file($source, $target);
                 // create the '400' and '100' versions of the image
                // process_image($image_dir_path, $name."logo.png");
@@ -347,23 +335,6 @@ switch ($action){
         $business = get_business();
         include 'contact.html';
     break;
-    case 'product_detail':
-
-        $ProductID = filter_input(INPUT_GET,'product_id',FILTER_VALIDATE_INT);
-        $Product = get_product_by_id($ProductID);
-        $Sizes =  get_size_by_product_id($ProductID);
-        $Colors =  get_color_by_product_id($ProductID);
-        include 'model/product-detail.php';
-        break;
-    case 'add_to_cart':
-        
-//        $OrderID = filter_input(INPUT_POST,'');
-//        $ProductID = filter_input(INPUT_POST,'product_id');
-//        $UnitPrice = filter_input(INPUT_POST,'product_price');
-//        $Qty = filter_input(INPUT_POST,'num_product');
-//        add_order_line($OrderID,$ProductID,$UnitPrice,$Qty); 
-        include 'model/product-detail.php';
-        break;
 }
 
 
