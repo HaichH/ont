@@ -320,6 +320,9 @@ switch ($action){
         include 'home-03.html';
         break;
     case 'product':
+        
+        //Modify products to implement pagination
+        
         $business = get_business();
         $products = get_products();
       //  print_r($products);

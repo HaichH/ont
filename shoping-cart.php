@@ -222,6 +222,7 @@
                                                                         <th class="column-4">Size</th>
                                                                         <th class="column-4">Color</th>
 								</tr>
+                                                                <?php if(isset($_SESSION['cart_product'])): ?>
                                                                <?php 
                                                                $cart_total = 0;
                                                                foreach ($_SESSION['cart_product'] as $value): 
@@ -256,6 +257,7 @@
 								</tr>
                                                                 
                                                                 <?php endforeach; ?>
+                                                                <?php endif; ?>
 							</table>
 						</div>
 
