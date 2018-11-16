@@ -248,3 +248,42 @@ function get_product_sizes($prod_id) {
     );
     return DatabaseHandler::GetAll($sql, $paras);
 }
+
+function get_num_products() {
+   $sql = "CALL uspCountProducts";
+   return DatabaseHandler::GetRow($sql);
+}
+
+
+function get_products_paginate($page_num){
+    $sql = "CALL GetAllProductsLimit(?)";
+    $params = array(
+     $page_num   
+    );
+    return DatabaseHandler::GetAll($sql, $params);
+}
+
+function add_transaction($tokenID, $tokenProds) {
+    $sql = "CALL uspAddTransaction(?,?)";
+    $params = array(
+     $tokenID,
+     $tokenProds
+    );
+    return DatabaseHandler::Execute($sql,$params);
+}
+
+function remove_transaction($tokenID) {
+    $sql = "CALL uspRemoveTrans(?)";
+    $params = array(
+    $tokenID  
+    );
+    return DatabaseHandler::Execute($sql,$params);
+}
+
+function get_token_products($tokenID) {
+    $sql = "CALL uspGetTokens(?)";
+    $params = array(
+    $tokenID  
+    );
+     return DatabaseHandler::GetRow($sql,$params);
+}

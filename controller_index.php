@@ -142,14 +142,15 @@ switch ($action){
     case 'login':
         $Username = filter_input(INPUT_POST, 'user');
         $Password = filter_input(INPUT_POST, 'pass');
-      //  $credentials = login_admin($Username, $Password);
-     //   if($credentials ==NULL){
-       //     $failure = true;
-       //     include 'Admin/login.html';
-       // }else{
-      //      include 'Admin/index.html';
-      //  }
-		header("Location: controller_index.php?action=load_business");
+        $credentials = login_admin($Username, $Password);
+        if($credentials ==NULL){
+            $failure = true;
+            include 'Admin/login.html';
+        }else{
+            header("Location: controller_index.php?action=load_business");
+          // include 'Admin/index.html';
+        }
+		
         break;
         
     case'product_add':
@@ -320,11 +321,37 @@ switch ($action){
         include 'home-03.html';
         break;
     case 'product':
+       //Modify products to implement pagination
+        //Count the amount of products 
+        $num_products = get_num_products();
         
-        //Modify products to implement pagination
+        //Calculate the next lot to display buy fetching the current page viewing
+        $page_num = filter_input(INPUT_GET, 'page');
+        $per_page = 10;
+        if(!isset($page_num)){
+            $page_num = 1;
+        }
+        
+        if($page_num!= 1){
+            $start = ($page_num - 1) * $per_page;
+        }else{
+            $start = 0;
+        }
+        $products = get_products_paginate($start);
+        
+        $num_pages = ceil($num_products['totalRecords']/$per_page);
+        //This might get a little dirty 
+       
+        $pagination = "";
+        
+        for($i = 0; $i < $num_pages;$i++){
+            $pagination .="<a href='?action=product&page=".($i+1)."' class='flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1'> ";
+            $pagination.= ($i+1);
+            $pagination .= "</a>";
+        }
         
         $business = get_business();
-        $products = get_products();
+        
       //  print_r($products);
         include 'product.html';
         break;
@@ -432,27 +459,39 @@ case 'add_cart':
             $line_total = $value['price']* $value['quantity'];
             $cart_total += $line_total;
             if ($value === end($array)) {
-        $prods.=$value['title'];
+        $prods.=$value['title']." Qty:".$value['quantity'];
         }else{
-            $prods.=$value['title']." | +";
+            $prods.=$value['title']." Qty:".$value['quantity']." \n +";
         }
         }
-        if($cart_total < 1500){  
-        echo ($cart_total +100);}
+        if($cart_total < 1000){  
+        $cart_total = $cart_total +100;}
         else{
-            echo $cart_total;
+            $cart_total=  $cart_total;
         }
+        $token = date("Y/m/d h:i:s v"); 
+        $token_products =  $prods;
+        //create token
+        
+        $ads= add_transaction($token, $token_products);
         
         $pay_link = "https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=13121591&item_name=";
-        $pay_link.= "$prods&amount=";
+        $pay_link.= "Uncommon Products&amount=";
         $pay_link.= "$cart_total&return_url=";
-        $pay_link.= "https://www.uncommonwear.co.za/controller_index.php?action=paid&phone_num=$phone_num&house_num=$house_num";
+        $pay_link.= "https://www.uncommonwear.co.za/controller_index.php?action=jvsvBitch&token=$token&phone_num=$phone_num&house_num=$house_num";
         $pay_link .= "&street_name=$street_name&suburb=$suburb&city=$city&amp;cancel_url=";
-        $pay_link.="https://www.uncommonwear.co.za/controller_index.php?";
+        $pay_link.="https://www.uncommonwear.co.za/controller_index.php?action=cancel&token=$token";
         header("LOCATION: $pay_link");
-        break;
+     // header("LOCATION: controller_index.php?action=cancel&token=$token");
+     // header("LOCATION: controller_index.php?action=jvsvBitch&token=$token&phone_num=$phone_num&house_num=$house_num&street_name=$street_name&suburb=$suburb&city=$city");
+       
+      break;
     
-    case'paid':
+    case'jvsvBitch':
+        $token = filter_input(INPUT_GET, 'token');
+        //get token products
+        $token_products = get_token_products($token);
+        $prods = $token_products['products'];
         $phone_num = filter_input(INPUT_GET, 'phone_num');
         $house_num = filter_input(INPUT_GET, 'house_num');
         $street_name = filter_input(INPUT_GET, 'street_name');
@@ -461,16 +500,30 @@ case 'add_cart':
         //Send email!!! 
         
         $email_to_send = "Another delivery for today \nPhone Number: $phone_num\n Address:\n";
-        $email_to_send.= "$house_num $street_name, $suburb, $city";
+        $email_to_send.= "$house_num $street_name, $suburb, $city the products are as follows\n$prods";
         $to = "admin@uncommonwear.co.za";
         $subject = "Customer Delivery";
         $txt = $email_to_send;
-        $headers = "From: webmaster@example.com" . "\r\n" .
-        "CC: admin@uncommonwear.co.za";
+        //die(print_r($txt));
+        $headers = "From: webmaster@uncommon.co.za" . "\r\n" .
+        "CC: onthatile@uncommonwear.co.za";
         mail($to,$subject,$txt,$headers);
-        include 'confirmation.php';
+        session_destroy();
+        session_start();
+        header("LOCATION: controller_index.php?action=confirm");
         break;
 
+    case 'confirm':
+        $business = get_business();
+         include 'confirmation.php';
+        break;
+    
+    case 'cancel':
+        $token = filter_input(INPUT_GET, 'token');
+        remove_transaction($token);
+        //die(print_r($token));
+        header("LOCATION: controller_index.php");
+        break;
 }
 
 

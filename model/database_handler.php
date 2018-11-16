@@ -4,7 +4,7 @@ class DatabaseHandler
 {
 	// Hold an instance of the PDO class
 	private static $conn;
-	private static $dsn = 'mysql:host=localhost:3306:;dbname=uncommon_DB';
+	private static $dsn = 'mysql:host=localhost:3306:;dbname=uncommon_DBA';
     private static $username = 'uncom_ghost';
     private static $password = '!Invisible@2';
     

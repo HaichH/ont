@@ -60,6 +60,10 @@
 							<li>
 								<a href="?action=product">Shop</a>
 							</li>
+							
+							<li>
+                                    <a href="?action=view_cart">My Cart</a>
+                                </li>
 
 							<li>
 								<a href="?action=about">About</a>
@@ -126,6 +130,10 @@
 				<li>
 					<a href="?action=product">Shop</a>
 				</li>
+				
+				<li>
+                                    <a href="?action=view_cart">My Cart</a>
+                                </li>
 				<li>
 					<a href="?action=about">About</a>
 				</li>
