@@ -198,7 +198,11 @@
 		
 
 	<!-- Shoping Cart -->
-        <form class="bg0 p-t-75 p-b-85" method="post" action="?action=pay">
+        <div class="bg0 p-t-75 ">
+            <h4 class="mtext-109 cl2 p-b-30 text-center">
+	Pay for your products below
+	</h4>
+        </div>     
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -257,8 +261,7 @@
 
 						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
 							<div class="flex-w flex-m m-r-20 m-tb-5">
-							If a product has a quantity of 0, then it's not included in your pricing.
-								
+                                                            <a href="?action=clear_cart">Clear Cart</a>
                                                         </div>
 						</div>
 					</div>
@@ -266,6 +269,7 @@
 
 				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
 					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                                            <form class="bg0 p-t-75 p-b-85" method="post" action="?action=pay">
 						<h4 class="mtext-109 cl2 p-b-30">
 							Cart Totals
 						</h4>
@@ -283,17 +287,12 @@
 								</span>
 							</div>
 						</div>
-
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2">
-									Free Delivery:
-								</span>
+							<div class="size-208 w-full-ssm">								
 							</div>
 
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
 								<p class="stext-111 cl6 p-t-2">
-								Petrol is expensive, but deliveries are free for purchases over R1 000. R100 for products less than R1 000.
                                                                 </p>
 								
 								<div class="p-t-15">
@@ -346,17 +345,17 @@
                                                                             $cart_total = 0;
                                                                         }
                                                                       if($cart_total < 1000){  
-                                                                      echo ($cart_total +100);}
+                                                                      echo ($cart_total);}
                                                                       else{
                                                                           echo $cart_total;
                                                                       }
-                                                                        ?> including delivery costs
+                                                                      ?> <br>For every order placed with Uncommon you will be charged a specified delivery fee based on where you reside.
 								</span>
 							</div>
 						</div>
 
                                             <input type="submit" value="Pay Now" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-							
+                                            </form>	
                                             </div>
 				</div>
 			</div>

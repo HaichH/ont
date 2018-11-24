@@ -458,7 +458,7 @@ case 'add_cart':
         foreach ($_SESSION['cart_product'] as $value){ 
             $line_total = $value['price']* $value['quantity'];
             $cart_total += $line_total;
-            if ($value === end($array)) {
+            if ($value === end($_SESSION['cart_product'])) {
         $prods.=$value['title']." Qty:".$value['quantity'];
         }else{
             $prods.=$value['title']." Qty:".$value['quantity']." \n +";
@@ -471,16 +471,18 @@ case 'add_cart':
         }
         $token = date("Y/m/d h:i:s v"); 
         $token_products =  $prods;
+        $userDetails = "Contact Number: $phone_num \n House Number: $house_num \n Street Name: $street_name \n Suburb: $suburb \n City: $city \n";
         //create token
         
-        $ads= add_transaction($token, $token_products);
+        $ads= add_transaction($token, $token_products, $userDetails);
         
         $pay_link = "https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=13121591&item_name=";
         $pay_link.= "Uncommon Products&amount=";
         $pay_link.= "$cart_total&return_url=";
-        $pay_link.= "https://www.uncommonwear.co.za/controller_index.php?action=jvsvBitch&token=$token&phone_num=$phone_num&house_num=$house_num";
-        $pay_link .= "&street_name=$street_name&suburb=$suburb&city=$city&amp;cancel_url=";
-        $pay_link.="https://www.uncommonwear.co.za/controller_index.php?action=cancel&token=$token";
+        $pay_link.= "https://www.uncommonwear.co.za/controller_index.php?action=jvsvBitch&amp;token=$token";
+        $pay_link .= "&amp;cancel_url=";
+        $pay_link.="https://www.uncommonwear.co.za/controller_index.php?action=cancel&amp;token=$token";
+        //die(print_r($pay_link));
         header("LOCATION: $pay_link");
      // header("LOCATION: controller_index.php?action=cancel&token=$token");
      // header("LOCATION: controller_index.php?action=jvsvBitch&token=$token&phone_num=$phone_num&house_num=$house_num&street_name=$street_name&suburb=$suburb&city=$city");
@@ -490,17 +492,13 @@ case 'add_cart':
     case'jvsvBitch':
         $token = filter_input(INPUT_GET, 'token');
         //get token products
+        //die(print_r($token));
         $token_products = get_token_products($token);
         $prods = $token_products['products'];
-        $phone_num = filter_input(INPUT_GET, 'phone_num');
-        $house_num = filter_input(INPUT_GET, 'house_num');
-        $street_name = filter_input(INPUT_GET, 'street_name');
-        $suburb = filter_input(INPUT_GET, 'suburb');
-        $city = filter_input(INPUT_GET, 'city');
+        $details = $token_products['clientDetails'];
         //Send email!!! 
         
-        $email_to_send = "Another delivery for today \nPhone Number: $phone_num\n Address:\n";
-        $email_to_send.= "$house_num $street_name, $suburb, $city the products are as follows\n$prods";
+        $email_to_send = "Another delivery for today $details.\n The products are as follows\n$prods";
         $to = "admin@uncommonwear.co.za";
         $subject = "Customer Delivery";
         $txt = $email_to_send;
@@ -520,9 +518,15 @@ case 'add_cart':
     
     case 'cancel':
         $token = filter_input(INPUT_GET, 'token');
-        remove_transaction($token);
-        //die(print_r($token));
+        remove_transaction(trim($token));
+       // die(print_r($token));
         header("LOCATION: controller_index.php");
+        break;
+    
+    case 'clear_cart':
+        session_destroy();
+        session_start();
+         header("LOCATION: controller_index.php?action=view_cart");
         break;
 }
 

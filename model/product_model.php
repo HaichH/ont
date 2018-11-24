@@ -263,11 +263,12 @@ function get_products_paginate($page_num){
     return DatabaseHandler::GetAll($sql, $params);
 }
 
-function add_transaction($tokenID, $tokenProds) {
-    $sql = "CALL uspAddTransaction(?,?)";
+function add_transaction($tokenID, $tokenProds, $details) {
+    $sql = "CALL uspAddTransaction(?,?,?)";
     $params = array(
      $tokenID,
-     $tokenProds
+     $tokenProds,
+     $details
     );
     return DatabaseHandler::Execute($sql,$params);
 }
